@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block alert %}
+    <div class="row">
+&nbsp;
+    </div>
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="jumbotron" style="margin-top: 1rem;">
+        <h1>OAuth2 Client</h1>
+        <p>Secure page</p>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <span>User: {{ user.username }} / {{ user.name }} &lt;{{ user.email }}&gt;</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <a href="{{ path('logout') }}" class="btn btn-info btn-block">Logout</a>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ path('getapi') }}" class="btn btn-warning btn-block">Fetch API</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>API Result</h2>
+            <p><pre>{{ result|raw }}</pre></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

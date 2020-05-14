@@ -1,0 +1,27 @@
+
+
+Pasos para recrear entorno:
+
+1. Editamos c:\windows\system32\drivers\etc\hosts y añadimos:
+127.0.0.1 dcatcher.localnet dcatcher
+
+2. git clone ... oauth2
+
+3. Build de docker compose:
+c:\> cd oauth2
+c:\> docker-compose build
+c:\> docker-compose up
+
+4. Nos conectamos a container web:
+
+c:\> docker exec -it oauth2_web /bin/bash
+# cd /var/www/html
+# cat docker/mysql-initialdata.sql.bz2 | bzip2 -d | mysql -ptest -h db -u admin oauth2
+(Pass test)
+
+# php /composer.phar update
+
+Listos!
+
+
+

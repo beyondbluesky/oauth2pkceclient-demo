@@ -1,0 +1,10 @@
+oauth2_pkce_client:
+    server_uris:
+        auth_uri:   https://oauth2.localnet:444/oauth2/auth
+        token_uri:  https://oauth2.localnet:444/oauth2/token
+        owner_uri:  https://oauth2.localnet:444/oauth2/owner
+    client:
+        id: '%env(resolve:OAUTH2_CLIENT)%'
+        secret: '%env(resolve:OAUTH2_SECRET)%'
+        scope: 'authorization_code,user_info,user_auth'
+        redirect_uri: '%env(resolve:OAUTH2_REDIRECT)%'

@@ -1,0 +1,1 @@
+docker exec -it oauth2pkcecli_$1 /bin/bash

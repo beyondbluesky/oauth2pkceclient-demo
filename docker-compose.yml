@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  web:
+   container_name: oauth2pkcecli_web
+   volumes:
+     - ${PWD}:/var/www/html
+   build: 
+     dockerfile: docker/Dockerfile-web
+     context: .
+   ports:
+     - "8084:80"
+     - "4444:443"
+   links:
+     - db
+   depends_on:
+     - db
+   networks:
+     - oauth2-network
+
+  db:
+   container_name: oauth2pkcecli_db
+   build: 
+     dockerfile: docker/Dockerfile-db
+     context: .
+   restart: always
+   volumes:
+     - ./mysql:/var/lib/mysql
+   environment:
+     MYSQL_ROOT_PASSWORD: 1234
+     MYSQL_DATABASE: oauth2cli
+     MYSQL_USER: admin
+     MYSQL_PASSWORD: test
+   ports:
+     - "3311:3306"
+   networks:
+     - oauth2-network
+
+networks:
+  oauth2-network:

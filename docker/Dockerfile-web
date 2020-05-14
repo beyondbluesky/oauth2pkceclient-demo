@@ -1,0 +1,24 @@
+FROM php:7.3-apache
+
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git zip unzip bzip2 coreutils mariadb-client vim iputils-ping
+# bcmath bz2 calendar ctype curl dba dom enchant exif fileinfo filter ftp gd gettext gmp hash iconv imap interbase intl json ldap mbstring mysqli oci8 odbc opcache pcntl pdo pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc pdo_pgsql pdo_sqlite pgsql phar posix pspell readline recode reflection session shmop simplexml snmp soap sockets sodium spl standard sysvmsg sysvsem sysvshm tidy tokenizer wddx xml xmlreader xmlrpc xmlwriter xsl zend_test zip
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN a2enmod rewrite
+
+WORKDIR /
+RUN curl --silent --show-error https://getcomposer.org/installer | php
+RUN mv /composer.phar /composer
+RUN mv /composer /usr/local/bin
+#RUN chmod a+x bin/console
+
+#CMD cat src/doc/mysql-initialdata.sql.bz2 | bzip2 -d | mysql dcatcher
+# CMD [ "composer", "update" ]
+RUN ln -s /etc/apache2/mods-available/ssl.load  /etc/apache2/mods-enabled/ssl.load
+COPY docker/web-default.conf /etc/apache2/sites-enabled/001-default.conf
+COPY docker/ssl.key /etc/apache2/ssl/
+COPY docker/ssl.crt /etc/apache2/ssl/

@@ -1,0 +1,1 @@
+docker exec -it oauth2cli_%1 /bin/bash 
